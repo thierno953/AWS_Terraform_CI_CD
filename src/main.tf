@@ -9,11 +9,11 @@ terraform {
     encrypt        = true
   }
 
-  required_version = ">=0.13.0"
+  required_version = "~> 1.3"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~>3.0"
+      version = "~> 4.0"
     }
   }
 }
@@ -27,12 +27,12 @@ module "tf-state" {
   bucket_name = "cc-tf-state-backend-ci-cd"
 }
 
-module "vpc-infra" {
-  source = "./modules/vpc"
+# module "vpc-infra" {
+#   source = "./modules/vpc"
 
-  # VPC Input Vars
-  vpc_cidr             = local.vpc_cidr
-  availability_zones   = local.availability_zones
-  public_subnet_cidrs  = local.public_subnet_cidrs
-  private_subnet_cidrs = local.private_subnet_cidrs
-}
+#   # VPC Input Vars
+#   vpc_cidr             = local.vpc_cidr
+#   availability_zones   = local.availability_zones
+#   public_subnet_cidrs  = local.public_subnet_cidrs
+#   private_subnet_cidrs = local.private_subnet_cidrs
+# }
