@@ -21,7 +21,6 @@ terraform {
 
 provider "aws" {
   region  = "eu-west-3"
-  profile = "thierno_cloud"
 }
 
 module "tf-state" {
