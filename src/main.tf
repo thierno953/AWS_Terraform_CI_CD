@@ -9,7 +9,7 @@ terraform {
     encrypt        = true
   }
 
-  required_version = "~> 1.6"
+  required_version = ">=0.14.0"
 
   required_providers {
     aws = {
