@@ -1,30 +1,32 @@
 terraform {
   # Run init/plan/apply with "backend" commented-out (ueses local backend) to provision Resources (Bucket, Table)
   # Then uncomment "backend" and run init, apply after Resources have been created (uses AWS)
-  backend "s3" {
-    bucket         = "cc-tf-state-backend-ci-cd"
+  /* backend "s3" {
+    bucket         = "tmb-tf-state-backend-ci-cd"
     key            = "tf-infra/terraform.tfstate"
     region         = "eu-west-3"
     dynamodb_table = "terraform-state-locking"
     encrypt        = true
-  }
+  } */
 
-  required_version = "~> 1.3"
+  required_version = "~> 1.6"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "~> 5.0"
     }
   }
 }
 
 provider "aws" {
-  region = "eu-west-3"
+  region  = "eu-west-3"
+  profile = "thierno_cloud"
 }
 
 module "tf-state" {
   source      = "./modules/tf-state"
-  bucket_name = "cc-tf-state-backend-ci-cd"
+  bucket_name = "tmb-tf-state-backend-ci-cd"
 }
 
 module "vpc-infra" {

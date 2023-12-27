@@ -1,134 +1,134 @@
-resource "aws_vpc" "ccVPC" {
+resource "aws_vpc" "tmbVPC" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
   tags = {
-    Name    = "ccVPC"
-    Project = "CC TF"
+    Name    = "tmbVPC"
+    Project = "TMB TF Project"
   }
 }
 
-resource "aws_internet_gateway" "ccIGW" {
-  vpc_id = aws_vpc.ccVPC.id
+resource "aws_internet_gateway" "tmbIGW" {
+  vpc_id = aws_vpc.tmbVPC.id
   tags = {
-    Name    = "ccIGW"
-    Project = "CC TF"
+    Name    = "tmbIGW"
+    Project = "TMB TF Project"
   }
 }
 
-resource "aws_eip" "ccNatGatewayEIP1" {
+resource "aws_eip" "tmbNatGatewayEIP1" {
   tags = {
-    Name    = "ccNatGatewayEIP1"
-    Project = "CC TF"
+    Name    = "tmbNatGatewayEIP1"
+    Project = "TMB TF Project"
   }
 }
-resource "aws_nat_gateway" "ccNatGateway1" {
-  allocation_id = aws_eip.ccNatGatewayEIP1.id
-  subnet_id     = aws_subnet.ccPublicSubnet1.id
+resource "aws_nat_gateway" "tmbNatGateway1" {
+  allocation_id = aws_eip.tmbNatGatewayEIP1.id
+  subnet_id     = aws_subnet.tmbPublicSubnet1.id
   tags = {
-    Name    = "ccNatGateway1"
-    Project = "CC TF"
+    Name    = "tmbNatGateway1"
+    Project = "TMB TF Project"
   }
 }
-resource "aws_subnet" "ccPublicSubnet1" {
-  vpc_id            = aws_vpc.ccVPC.id
+resource "aws_subnet" "tmbPublicSubnet1" {
+  vpc_id            = aws_vpc.tmbVPC.id
   cidr_block        = var.public_subnet_cidrs[0]
   availability_zone = var.availability_zones[0]
   tags = {
-    Name    = "ccPublicSubnet1"
-    Project = "CC TF"
+    Name    = "tmbPublicSubnet1"
+    Project = "TMB TF Project"
   }
 }
 
-resource "aws_eip" "ccNatGatewayEIP2" {
+resource "aws_eip" "tmbNatGatewayEIP2" {
   tags = {
-    Name    = "ccNatGatewayEIP2"
-    Project = "CC TF"
+    Name    = "tmbNatGatewayEIP2"
+    Project = "TMB TF Project"
   }
 }
-resource "aws_nat_gateway" "ccNatGateway2" {
-  allocation_id = aws_eip.ccNatGatewayEIP2.id
-  subnet_id     = aws_subnet.ccPublicSubnet1.id
+resource "aws_nat_gateway" "tmbNatGateway2" {
+  allocation_id = aws_eip.tmbNatGatewayEIP2.id
+  subnet_id     = aws_subnet.tmbPublicSubnet1.id
   tags = {
-    Name    = "ccNatGateway2"
-    Project = "CC TF"
+    Name    = "tmbNatGateway2"
+    Project = "TMB TF Project"
   }
 }
-resource "aws_subnet" "ccPublicSubnet2" {
-  vpc_id            = aws_vpc.ccVPC.id
+resource "aws_subnet" "tmbPublicSubnet2" {
+  vpc_id            = aws_vpc.tmbVPC.id
   cidr_block        = var.public_subnet_cidrs[1]
   availability_zone = var.availability_zones[1]
   tags = {
-    Name    = "ccPublicSubnet2"
-    Project = "CC TF"
+    Name    = "tmbPublicSubnet2"
+    Project = "TMB TF Project"
   }
 }
 
-resource "aws_subnet" "ccPrivateSubnet1" {
-  vpc_id            = aws_vpc.ccVPC.id
+resource "aws_subnet" "tmbPrivateSubnet1" {
+  vpc_id            = aws_vpc.tmbVPC.id
   cidr_block        = var.private_subnet_cidrs[0]
   availability_zone = var.availability_zones[0]
   tags = {
-    Name    = "ccPrivateSubnet1"
-    Project = "CC TF"
+    Name    = "tmbPrivateSubnet1"
+    Project = "TMB TF Project"
   }
 }
-resource "aws_subnet" "ccPrivateSubnet2" {
-  vpc_id            = aws_vpc.ccVPC.id
+resource "aws_subnet" "tmbPrivateSubnet2" {
+  vpc_id            = aws_vpc.tmbVPC.id
   cidr_block        = var.private_subnet_cidrs[1]
   availability_zone = var.availability_zones[1]
   tags = {
-    Name    = "ccPrivateSubnet2"
-    Project = "CC TF"
+    Name    = "tmbPrivateSubnet2"
+    Project = "TMB TF Project"
   }
 }
 
-resource "aws_route_table" "ccPublicRT" {
-  vpc_id = aws_vpc.ccVPC.id
+resource "aws_route_table" "tmbPublicRT" {
+  vpc_id = aws_vpc.tmbVPC.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.ccIGW.id
+    gateway_id = aws_internet_gateway.tmbIGW.id
   }
   tags = {
-    Name    = "ccPublicRT"
-    Project = "CC TF"
+    Name    = "tmbPublicRT"
+    Project = "TMB TF Project"
   }
 }
-resource "aws_route_table" "ccPrivateRT1" {
-  vpc_id = aws_vpc.ccVPC.id
+resource "aws_route_table" "tmbPrivateRT1" {
+  vpc_id = aws_vpc.tmbVPC.id
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.ccNatGateway1.id
+    nat_gateway_id = aws_nat_gateway.tmbNatGateway1.id
   }
   tags = {
-    Name    = "ccPrivateRT1"
-    Project = "CC TF"
+    Name    = "tmbPrivateRT1"
+    Project = "TMB TF Project"
   }
 }
-resource "aws_route_table" "ccPrivateRT2" {
-  vpc_id = aws_vpc.ccVPC.id
+resource "aws_route_table" "tmbPrivateRT2" {
+  vpc_id = aws_vpc.tmbVPC.id
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.ccNatGateway2.id
+    nat_gateway_id = aws_nat_gateway.tmbNatGateway2.id
   }
   tags = {
-    Name    = "ccPrivateRT2"
-    Project = "CC TF"
+    Name    = "tmbPrivateRT2"
+    Project = "TMB TF Project"
   }
 }
 
-resource "aws_route_table_association" "ccPublicRTassociation1" {
-  subnet_id      = aws_subnet.ccPublicSubnet1.id
-  route_table_id = aws_route_table.ccPublicRT.id
+resource "aws_route_table_association" "tmbPublicRTassociation1" {
+  subnet_id      = aws_subnet.tmbPublicSubnet1.id
+  route_table_id = aws_route_table.tmbPublicRT.id
 }
-resource "aws_route_table_association" "ccPublicRTassociation2" {
-  subnet_id      = aws_subnet.ccPublicSubnet2.id
-  route_table_id = aws_route_table.ccPublicRT.id
+resource "aws_route_table_association" "tmbPublicRTassociation2" {
+  subnet_id      = aws_subnet.tmbPublicSubnet2.id
+  route_table_id = aws_route_table.tmbPublicRT.id
 }
-resource "aws_route_table_association" "ccPrivateRTassociation1" {
-  subnet_id      = aws_subnet.ccPrivateSubnet1.id
-  route_table_id = aws_route_table.ccPrivateRT1.id
+resource "aws_route_table_association" "tmbPrivateRTassociation1" {
+  subnet_id      = aws_subnet.tmbPrivateSubnet1.id
+  route_table_id = aws_route_table.tmbPrivateRT1.id
 }
-resource "aws_route_table_association" "ccPrivateRTassociation2" {
-  subnet_id      = aws_subnet.ccPrivateSubnet2.id
-  route_table_id = aws_route_table.ccPrivateRT2.id
+resource "aws_route_table_association" "tmbPrivateRTassociation2" {
+  subnet_id      = aws_subnet.tmbPrivateSubnet2.id
+  route_table_id = aws_route_table.tmbPrivateRT2.id
 }
